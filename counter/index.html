@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Dapp</title>
+
+    </head>
+
+    <body>
+        <div>
+            <p id="para1"></p>
+
+            <button id="button1">CLICK ME</button>
+        </div>
+
+
+
+
+
+
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+        <script src="web3.min.js"></script>
+        <script>
+            let contract;
+            $(document).ready(function () {
+                initContract();
+            })
+
+            function initContract(){
+                web3 = new Web3(web3.currentProvider);
+                let address = "0xfdc9baad571e24d504d9b80e8e80318f3fe8a5ba";
+                let abi = [
+                    {
+                        "constant": false,
+                        "inputs": [],
+                        "name": "buyTokensWithEther",
+                        "outputs": [],
+                        "payable": true,
+                        "stateMutability": "payable",
+                        "type": "function"
+                    },
+                    {
+                        "constant": false,
+                        "inputs": [
+                            {
+                                "name": "receiver",
+                                "type": "address"
+                            },
+                            {
+                                "name": "amount",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "sendTokens",
+                        "outputs": [],
+                        "payable": false,
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    },
+                    {
+                        "constant": false,
+                        "inputs": [],
+                        "name": "withdrawRaisedFunds",
+                        "outputs": [],
+                        "payable": false,
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "name": "initialSupply",
+                                "type": "uint256"
+                            }
+                        ],
+                        "payable": false,
+                        "stateMutability": "nonpayable",
+                        "type": "constructor"
+                    },
+                    {
+                        "anonymous": false,
+                        "inputs": [
+                            {
+                                "indexed": true,
+                                "name": "from",
+                                "type": "address"
+                            },
+                            {
+                                "indexed": true,
+                                "name": "to",
+                                "type": "address"
+                            },
+                            {
+                                "indexed": false,
+                                "name": "value",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "TransferGB",
+                        "type": "event"
+                    },
+                    {
+                        "anonymous": false,
+                        "inputs": [
+                            {
+                                "indexed": true,
+                                "name": "from",
+                                "type": "address"
+                            },
+                            {
+                                "indexed": false,
+                                "name": "fundsReceivedInWei",
+                                "type": "uint256"
+                            },
+                            {
+                                "indexed": false,
+                                "name": "tokensIssued",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "FundsRaised",
+                        "type": "event"
+                    },
+                    {
+                        "anonymous": false,
+                        "inputs": [
+                            {
+                                "indexed": true,
+                                "name": "recipient",
+                                "type": "address"
+                            },
+                            {
+                                "indexed": false,
+                                "name": "fundsWithdrawnInWei",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "ETHFundsWithdrawn",
+                        "type": "event"
+                    },
+                    {
+                        "constant": true,
+                        "inputs": [],
+                        "name": "beneficiary",
+                        "outputs": [
+                            {
+                                "name": "",
+                                "type": "address"
+                            }
+                        ],
+                        "payable": false,
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "constant": true,
+                        "inputs": [
+                            {
+                                "name": "addr",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "getBalance",
+                        "outputs": [
+                            {
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "payable": false,
+                        "stateMutability": "view",
+                        "type": "function"
+                    }
+                ]
+                contract = new web3.eth.Contract(abi, address);
+
+            }
+
+            $("#button1").click(function () {
+                web3.eth.getAccounts().then(function (accounts) {
+                    let acct = accounts[0];
+                    console.log(acct);
+
+
+                    web3.eth.sendTransaction({
+                        from: acct,
+                        to: "0xfdc9baad571e24d504d9b80e8e80318f3fe8a5ba",
+                        value: 100000000000000000,
+                        gas: 460000000
+                    },function (err,transactionHash) {
+                        if(err){
+                            console.log(err);
+                        }else{
+                            console.log(transactionHash);
+                        }
+
+                    })
+
+                })
+
+            })
+
+
+
+
+            // web3.eth.sendTransaction({
+            //     from: "0x627306090abaB3A6e1400e9345bC60c78a8BEf57",
+            //     to: "0x086912faa7f6598d28d80c448c8d1e9dae5a4dee",
+            //     value: web3.toWei(1, "ether"),
+            // }, function(err, transactionHash) {
+            //     if (err) {
+            //         console.log(err);
+            //     } else {
+            //         console.log(transactionHash);
+            //     }
+            // });
+
+
+
+
+
+
+
+
+        </script>
+
+    </body>
+
+
+
+
+
+</html>
